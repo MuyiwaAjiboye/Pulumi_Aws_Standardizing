@@ -1,0 +1,10 @@
+name: service_directory
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+description: Centralized automation for internal services
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
