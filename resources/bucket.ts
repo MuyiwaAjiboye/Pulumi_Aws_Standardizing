@@ -5,6 +5,7 @@ import { getStack } from "@pulumi/pulumi";
 type CmBucketsArgs = {
   Name: string;
   Product: string;
+  Public?: boolean;
 };
 
 export class CmBuckets extends pulumi.ComponentResource {
@@ -17,25 +18,27 @@ export class CmBuckets extends pulumi.ComponentResource {
     const bucket = new aws.s3.BucketV2(
       args.Name,
       {
+        acl: "Private",
         bucket: resourceName,
         tags: {
-          Name: "My bucket",
           Environment: "Dev",
         },
       },
       { parent: this },
     );
 
-    new aws.s3.BucketPublicAccessBlock(
-      args.Name,
-      {
-        bucket: bucket.id,
-        blockPublicAcls: true,
-        blockPublicPolicy: true,
-        ignorePublicAcls: true,
-        restrictPublicBuckets: true,
-      },
-      { parent: this },
-    );
+    if (!args.Public) {
+      new aws.s3.BucketPublicAccessBlock(
+        "example",
+        {
+          bucket: bucket.id,
+          blockPublicAcls: true,
+          blockPublicPolicy: true,
+          ignorePublicAcls: true,
+          restrictPublicBuckets: true,
+        },
+        { parent: this },
+      );
+    }
   }
 }

@@ -4,6 +4,7 @@ import { CmBuckets } from "../resources/bucket";
 type CmBucketsArgs = {
   Name: string;
   Product: string;
+  Public?: boolean;
 };
 
 export class CmFrontend extends pulumi.ComponentResource {
@@ -14,6 +15,13 @@ export class CmFrontend extends pulumi.ComponentResource {
     const source = new CmBuckets({
       Name: args.Name,
       Product: args.Product,
+      Public: true,
+    });
+
+    const replica = new CmBuckets({
+      Name: `(args.Name)-replica`,
+      Product: args.Product,
+      Public: false,
     });
   }
 }
