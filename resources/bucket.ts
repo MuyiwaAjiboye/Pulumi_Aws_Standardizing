@@ -10,7 +10,7 @@ type CmBucketsArgs = {
 export class CmBuckets extends pulumi.ComponentResource {
   constructor(args: CmBucketsArgs, opts?: pulumi.ComponentResourceOptions) {
     const resourceName = "${args.Product}-${args.Name} ";
-    super("pkg:index:MyComponent", resourceName, {}, opts);
+    super("pkg:index:CmBuckets", resourceName, {}, opts);
 
     const stack = getStack();
 
